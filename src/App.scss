@@ -1,0 +1,19 @@
+@use "~easy-theme" as theme;
+
+$light-theme: (
+  'background': (#ffffff, #1c1c1a),
+  'success': (#3c4a26, #a1c860, true),
+  'info': (#162531, #43a5ea, true),
+);
+
+$dark-theme: (
+  'background': (#1c1c1a, #ffffff)
+);
+
+@include theme.UseTheme((light: $light-theme, dark: $dark-theme));
+
+html,
+body {
+  background: theme.Color('background');
+  color: theme.Text('background');
+}

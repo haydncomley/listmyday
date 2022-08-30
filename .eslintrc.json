@@ -1,0 +1,61 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "sort-keys-fix",
+        "unused-imports"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "@typescript-eslint/no-empty-interface": "off",
+        "sort-keys-fix/sort-keys-fix": [
+            "error",
+            "asc",
+            {
+                "caseSensitive": false,
+                "natural": true
+            }
+        ],
+        "react/jsx-sort-props": "error",
+        "react/jsx-first-prop-new-line": "error",
+        "react/jsx-indent-props": [
+            "error",
+            "tab"
+        ],
+        "react/jsx-max-props-per-line": [
+            "error"
+        ],
+        "react/no-unescaped-entities": "off",
+        "space-before-blocks": "error",
+        "block-spacing": "error",
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "react/self-closing-comp": "error",
+        "unused-imports/no-unused-imports": "error"
+    }
+}
