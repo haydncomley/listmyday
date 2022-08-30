@@ -5,7 +5,7 @@ export interface ITemplateName {
 }
 
 // eslint-disable-next-line no-empty-pattern
-const TemplateName = ({ }: ITemplateName) => {
+const TemplateName = ({ }: React.PropsWithChildren<ITemplateName>) => {
 	return (
 		<div className={styles.TemplateName}>
 			TemplateName Works

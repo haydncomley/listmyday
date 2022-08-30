@@ -5,14 +5,14 @@ import {
 	Route,
 } from 'react-router-dom';
 import './App.scss';
-import LazyTestPage from './app/pages/Test/TestPage.lazy';
+import LazyDayPage from './app/pages/Day/DayPage.lazy';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route
-					element={<LazyTestPage />}
+					element={<LazyDayPage />}
 					path='/' />
 			</Routes>
 		</BrowserRouter>
