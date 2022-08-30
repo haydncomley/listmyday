@@ -1,1 +1,7 @@
-.DayPage {}
+.DayPage {
+}
+
+.DayPageList {
+    flex: 1;
+    overflow-y: scroll;
+}

@@ -1,0 +1,43 @@
+@use "~easy-theme" as theme;
+
+$padding: .4rem;
+$radius: .5rem;
+
+.TimePicker {
+    background-color: theme.Color('accent');
+    color: theme.Text('accent');
+    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius;
+    transition: .1s ease;
+
+    &:focus-within {
+        background-color: theme.Color('accent', 'dark');
+    }
+
+    input {
+        background-color: transparent;
+        color: theme.Text('accent');
+        font-family: 'Inter';
+        border: none;
+        letter-spacing: .05rem;
+        font-size: 1rem;
+        outline: none;
+        margin: 0;
+        display: inline-block;
+        width: 100%;
+        width: 3.5rem;
+        padding: $padding;
+        text-align: center;
+
+        &::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+
+        &::placeholder {
+            color: theme.Text('accent', .5);
+        }
+    }
+}

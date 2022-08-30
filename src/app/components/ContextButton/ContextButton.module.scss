@@ -1,0 +1,38 @@
+@use "~easy-theme" as theme;
+
+$padding: 1rem;
+
+.ContextButton {
+    position: absolute;
+    bottom: $padding;
+    right: $padding;
+    display: flex;
+    padding: $padding * .8;
+    background-color: theme.Color('accent');
+    color: theme.Text('accent');
+    border-radius: 50%;
+    // box-shadow: 0 .1rem .25rem 0 theme.Color('accent', .5);
+    user-select: none;
+    transition: .1s ease;
+    border: none;
+
+    &:hover {
+        cursor: pointer;
+        background-color: theme.Color('accent', 'dark');
+    }
+
+    &:active {
+        transform: scale(.9);
+    }
+}
+
+.ContextButtonDisabled {
+    background-color: theme.Color('accent', 'darker');
+    box-shadow: 0 0rem 0rem 0 theme.Color('accent', 0);
+    pointer-events: none;
+    opacity: .75;
+
+    &:hover {
+        cursor: not-allowed;
+    }
+}

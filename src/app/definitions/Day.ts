@@ -92,10 +92,7 @@ export class Day {
 				start_timestamp: eventStartTimestamp
 			}; 
 		} catch (e) {
-			return {
-				message: 'Error',
-				people: [],
-			} as any;
+			return null as any;
 		}
 	}
 

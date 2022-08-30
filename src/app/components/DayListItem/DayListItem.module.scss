@@ -1,0 +1,81 @@
+@use "~easy-theme" as theme;
+
+$padding: 1rem;
+
+.DayListItem {
+    padding: $padding;
+    border-bottom: .1rem dashed theme.Color('accent', .5);
+    transition: .1s ease;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+
+    &:hover {
+        background: theme.Color('accent', .1);
+    }
+}
+
+.Timings {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    margin-top: .35rem;
+}
+
+.Notes {
+    padding: $padding * .75;
+    flex: 1;
+    margin-left: $padding;
+    background: transparent;
+    border-radius: .4rem;
+    height: 1.2rem;
+    min-height: 1rem;
+    font-family: 'Inter';
+    border: 1px solid theme.Text('background', .25);
+    outline: none;
+    font-size: .9rem;
+    overflow: hidden;
+    transition: padding-bottom .2s ease;
+
+    &:focus {
+        border: 1px solid theme.Text('background', 1);
+    }
+}
+
+.NotesWithPeople {
+    padding-bottom: $padding * 2.5;
+}
+
+.People {
+    position: absolute;
+    right: 1.75rem;
+    bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+    align-items: center;
+}
+
+.AddPerson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    border: none;
+    background-color: theme.Color('accent');
+    color: theme.Text('accent');
+    transition: .1s ease;
+
+    span {
+        display: flex;
+        font-size: .8rem;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: theme.Color('accent', 'dark');
+    }
+}
