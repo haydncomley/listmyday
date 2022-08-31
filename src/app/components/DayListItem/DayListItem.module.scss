@@ -4,14 +4,18 @@ $padding: 1rem;
 
 .DayListItem {
     padding: $padding;
-    border-bottom: .1rem dashed theme.Color('accent', .5);
+    // border-bottom: .125rem dashed theme.Color('accent', .5);
     transition: .1s ease;
     display: flex;
     align-items: flex-start;
     position: relative;
 
-    &:hover {
-        background: theme.Color('accent', .1);
+    &:nth-child(2n) {
+        background: theme.Color('accent', .25);
+
+        @include theme.DarkMode {
+            background: theme.Color('accent', .1);
+        }
     }
 }
 
@@ -32,10 +36,15 @@ $padding: 1rem;
     min-height: 1rem;
     font-family: 'Inter';
     border: 1px solid theme.Text('background', .25);
+    color: theme.Text('background');
     outline: none;
     font-size: .9rem;
     overflow: hidden;
     transition: padding-bottom .2s ease;
+
+    &::placeholder {
+        color: theme.Text('background', .5);
+    }
 
     &:focus {
         border: 1px solid theme.Text('background', 1);

@@ -13,7 +13,8 @@ $radius: .5rem;
     border-radius: $radius;
     transition: .1s ease;
 
-    &:focus-within {
+    &:focus-within,
+    &:hover {
         background-color: theme.Color('accent', 'dark');
     }
 

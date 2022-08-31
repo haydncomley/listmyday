@@ -1,7 +1,8 @@
+import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
+import ContextButton from '../../components/ContextButton/ContextButton';
 import DayListItem from '../../components/DayListItem/DayListItem';
 import Header from '../../components/Header/Header';
-import NewDayModal from '../../components/NewDayModal/NewDayModal';
 import { Day } from '../../definitions/Day';
 import styles from './DayPage.module.scss';
 
@@ -10,26 +11,63 @@ export interface IDayPage {
 
 // eslint-disable-next-line no-empty-pattern
 const DayPage = ({ }: IDayPage) => {
-	const [ day, setDay ] = useState<Day>();
+	const date = DateTime.now().toFormat('yyyy-MM-dd');
+	const [day, setDay] = useState<Day>();
+	const [count, setCount ] = useState(0);
+
+	const saveCurrent = () => {
+		console.log(day);
+		if (day) {
+			localStorage.setItem(`listmy.day-${date}`, day.export());
+			console.log(day.export());
+			setCount((prev) => prev + 1);
+		}
+	};
+
+	const onKeydown = (x: KeyboardEvent) => {
+		if (x.key === 's' && x.ctrlKey) {
+			x.preventDefault();
+			x.stopPropagation();
+			document.querySelector<HTMLButtonElement>('#save-button')!.click();
+		}
+	};
 
 	useEffect(() => {
-		const today = new Day().load('/data/test-day.data.txt').then((x) => {
-			setDay(x!);
-		});
+		const day = new Day().import(
+			localStorage.getItem(`listmy.day-${date}`) || ''
+		);
+		if (day) {
+			setDay(day);
+			setCount((prev) => prev + 1);
+		}
+
+		window.addEventListener('keydown', onKeydown);
+
+		return () => {
+			window.removeEventListener('keydown', onKeydown);
+		};
 	}, []);
 
 	const renderList = useCallback(() => {
 		return day?.getEvents().map((x, i) => <DayListItem
 			details={x}
-			key={i}
+			key={i+x.start}
 			onChange={(e) => {
 				setDay((prev) => {
 					const events = prev?.getEvents() || [];
 					events[i] = e;
 					return prev?.setEvents(events);
 				});
+			}}
+			onDelete={() => {
+				setDay((prev) => {
+					const events = [...(prev?.getEvents() || [])];
+					events.splice(i, 1);
+					return prev?.setEvents(events);
+				});
+				setCount((prev) => prev + 1);
 			}} />);
-	}, [day?.getEvents().length]);
+	}, [count]);
 
 	return (
 		<div className={styles.DayPage}>
@@ -37,9 +75,49 @@ const DayPage = ({ }: IDayPage) => {
 			<div className={styles.DayPageList}>
 				{ renderList() }
 			</div>
-			<button onClick={() => alert(day?.export())}>Done</button>
+			<button
+				id='save-button'
+				onClick={() => {
+					saveCurrent();
+				}}>Done</button>
 			
-			<NewDayModal />
+			<ContextButton
+				icon='add'
+				onPress={() => {
+					if (!day) {
+						console.log('No Day');
+						return;
+					}
+					
+					const events = [...day.getEvents()];
+					if (events.length > 0) {
+						events.push({
+							duration_seconds: DateTime.now().diff(events.slice(-1)[0].end_timestamp, 'seconds').seconds,
+							end: DateTime.now().toFormat('hh:mm'),
+							end_timestamp: DateTime.now(),
+							message: '',
+							people: [],
+							start: events.slice(-1)[0].end,
+							start_timestamp: events.slice(-1)[0].end_timestamp,
+						});
+					} else {
+						events.push({
+							duration_seconds: DateTime.now().diff(events.slice(-1)[0].end_timestamp, 'seconds').seconds,
+							end: DateTime.now().toFormat('hh:mm'),
+							end_timestamp: DateTime.now(),
+							message: '',
+							people: [],
+							start: DateTime.now().set({ hour: 9, minute: 0 }).toFormat('hh:mm'),
+							start_timestamp: DateTime.now().set({ hour: 9, minute: 0 }),
+						});
+					}
+
+					day.setEvents(events);
+
+					setDay(day);
+					setCount((prev) => prev + 1);
+				}}/>
+			{/* <NewDayModal /> */}
 		</div>
 	);
 };

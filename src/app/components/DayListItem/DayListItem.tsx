@@ -7,10 +7,11 @@ import styles from './DayListItem.module.scss';
 
 export interface IDayListItem {
 	details: IDayEvent,
-	onChange?: (event: IDayEvent) => void
+	onChange?: (event: IDayEvent) => void,
+	onDelete?: () => void
 }
 
-const DayListItem = ({ details, onChange }: React.PropsWithChildren<IDayListItem>) => {
+const DayListItem = ({ details, onChange, onDelete }: React.PropsWithChildren<IDayListItem>) => {
 	const [ start, setStart ] = useState(details.start);
 	const [ end, setEnd ] = useState(details.end);
 	const [ message, setMessage ] = useState(details.message);
@@ -53,7 +54,13 @@ const DayListItem = ({ details, onChange }: React.PropsWithChildren<IDayListItem
 	
 	return (
 		<div className={styles.DayListItem}>
-			<div className={styles.Timings}>
+			<div
+				className={styles.Timings}
+				onKeyDown={(x) => {
+					if (!!onDelete && !start && x.key === 'Backspace') {
+						onDelete();
+					}
+				}}>
 				<TimePicker
 					onChange={(time) => setStart(time)}
 					value={start} />
@@ -68,6 +75,7 @@ const DayListItem = ({ details, onChange }: React.PropsWithChildren<IDayListItem
 					people.length > 0 && styles.NotesWithPeople
 				)}
 				onChange={(e) => setMessage(e.target.value)}
+				placeholder='Notes...'
 				value={message}  />
 			<span className={styles.People}>
 				{ renderPeople() }
