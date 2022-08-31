@@ -5,15 +5,17 @@ import styles from './ContextButton.module.scss';
 export interface IContextButton {
 	icon: string,
 	disabled?: boolean,
-	onPress: () => void
+	onPress: () => void,
+	swapHorizontal?: boolean
 }
 
-const ContextButton = ({ icon, disabled, onPress }: React.PropsWithChildren<IContextButton>) => {
+const ContextButton = ({ icon, disabled, swapHorizontal, onPress }: React.PropsWithChildren<IContextButton>) => {
 	return (
 		<button
 			className={classlist(
 				styles.ContextButton,
-				disabled && styles.ContextButtonDisabled
+				disabled && styles.ContextButtonDisabled,
+				swapHorizontal && styles.ContextButtonSwapH
 			)}
 			onClick={() => {
 				if (!disabled && onPress) onPress();

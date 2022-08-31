@@ -1,24 +1,37 @@
 import React, { useState } from 'react';
 import ContextButton from '../ContextButton/ContextButton';
 import Modal from '../Modal/Modal';
+import Textarea from 'react-expanding-textarea';
+
+import styles from './NewDayModal.module.scss';
 
 export interface INewDayModal {
+	notes?: string,
+	onChange?: (notes: string) => void
 }
 
-// eslint-disable-next-line no-empty-pattern
-const NewDayModal = ({ }: React.PropsWithChildren<INewDayModal>) => {
+const NewDayModal = ({ notes, onChange }: React.PropsWithChildren<INewDayModal>) => {
 	const [ showModal, setShowModal ] = useState(false);
+	const [ text, setText ] = useState(notes || '');
 	
 	return (
 		<>
 			<ContextButton
-				icon='add'
-				onPress={() => setShowModal(!showModal)}/>
+				icon='notes'
+				onPress={() => setShowModal(!showModal)}
+				swapHorizontal/>
 			<Modal
-				header='New Item'
+				header='Day Notes'
 				onBackdrop={() => setShowModal(!showModal)}
 				show={showModal}>
-				NewDayModal Works
+				<Textarea
+					className={styles.Notes}
+					onChange={(e) => {
+						setText(e.target.value);
+						if (onChange) onChange(e.target.value);
+					}}
+					placeholder='Notes...'
+					value={text} />
 			</Modal>
 		</>
 	);

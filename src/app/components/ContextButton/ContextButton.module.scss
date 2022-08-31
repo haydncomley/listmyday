@@ -15,6 +15,7 @@ $padding: 1rem;
     user-select: none;
     transition: .1s ease;
     border: none;
+    z-index: 5;
 
     &:hover {
         cursor: pointer;
@@ -35,4 +36,10 @@ $padding: 1rem;
     &:hover {
         cursor: not-allowed;
     }
+}
+
+.ContextButtonSwapH {
+    bottom: $padding;
+    right: auto;
+    left: $padding;
 }

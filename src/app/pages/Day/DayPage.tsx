@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ContextButton from '../../components/ContextButton/ContextButton';
 import DayListItem from '../../components/DayListItem/DayListItem';
 import Header from '../../components/Header/Header';
+import NewDayModal from '../../components/NewDayModal/NewDayModal';
 import { Day } from '../../definitions/Day';
 import styles from './DayPage.module.scss';
 
@@ -21,6 +22,7 @@ const DayPage = ({ }: IDayPage) => {
 	const saveCurrent = () => {
 		if (day) {
 			localStorage.setItem(`listmy.day-${date}`, day.export());
+			console.log(day.export());
 			setCount((prev) => prev + 1);
 		}
 	};
@@ -187,7 +189,12 @@ const DayPage = ({ }: IDayPage) => {
 					setDay(day);
 					setCount((prev) => prev + 1);
 				}}/>
-			{/* <NewDayModal /> */}
+			{day && <NewDayModal
+				notes={day?.getNotes()}
+				onChange={(s) => {
+					day?.setNotes(s);
+					setCount((prev) => prev + 1);
+				}} />}
 		</div>
 	);
 };

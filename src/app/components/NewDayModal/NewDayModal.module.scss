@@ -1,1 +1,16 @@
+@use "~easy-theme" as theme;
+
 .NewDayModal {}
+
+.Notes {
+    width: 100%;
+    height: auto;
+    font-size: 1.2rem;
+    box-sizing: border-box;
+    background-color: transparent;
+    outline: none;
+    border: .1rem dashed theme.Text('background', .2);
+    resize: none;
+    padding: 1rem;
+    border-radius: .5rem;
+}

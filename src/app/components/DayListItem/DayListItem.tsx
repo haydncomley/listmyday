@@ -1,9 +1,9 @@
-import { classlist } from 'easy-class';
 import React, { useCallback, useEffect, useState } from 'react';
 import { IDayEvent } from '../../definitions/IDay';
 import Chip from '../Chip/Chip';
 import TimePicker from '../TimePicker/TimePicker';
 import styles from './DayListItem.module.scss';
+import Textarea from 'react-expanding-textarea';
 
 export interface IDayListItem {
 	details: IDayEvent,
@@ -71,13 +71,11 @@ const DayListItem = ({ details, onChange, onDelete, onMoveUp, onMoveDown }: Reac
 					onChange={(time) => setEnd(time)}
 					value={end} />
 			</div>
-			<textarea
-				className={classlist(
-					styles.Notes,
-					people.length > 0 && styles.NotesWithPeople
-				)}
+			<Textarea
+				className={styles.Notes}
 				onChange={(e) => setMessage(e.target.value)}
 				placeholder='Notes...'
+				rows={1}
 				value={message}  />
 			<span className={styles.People}>
 				{ renderPeople() }

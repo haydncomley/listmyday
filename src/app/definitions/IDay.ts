@@ -4,6 +4,7 @@ export interface IDay {
     date: DateTime;
     group: string;
     events: IDayEvent[];
+    notes: string;
 }
 
 export interface IDayEvent {

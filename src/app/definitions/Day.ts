@@ -12,7 +12,8 @@ export class Day {
 		this.details = {
 			date: DateTime.now(),
 			events: [],
-			group: ''
+			group: '',
+			notes: ''
 		};
 	}
 
@@ -56,6 +57,12 @@ export class Day {
 			this.setDate(date);
 			this.setGroup(group);
 			this.setEvents(events.map((x) => this.parseLMDEvent(x)).filter((x) => !!x));
+
+			if (data.includes('Notes:\n')) {
+				console.log(data.split('Notes:\n')[1]);
+				this.setNotes(data.split('Notes:\n')[1]);
+			}
+
 			return this;
 		} catch {
 			return null;
@@ -114,6 +121,10 @@ export class Day {
 			const line = `${x.start} - ${x.end}\t:\t${x.message}${ x.people.length > 0 ? ` [${x.people.join(', ')}]` : ''}\n`;
 			file += (x.message.startsWith('Lunch') || x.message.startsWith('Break')) ? `\n${line}\n` : line;
 		});
+
+		if (this.getNotes()) {
+			file += `\n\nNotes:\n${this.getNotes()}`;
+		}
 	
 		return file;
 	}
@@ -160,6 +171,15 @@ export class Day {
 
 	public getFormattedDate() {
 		return `${this.details.date.toFormat(`dd'${this.ordinal(this.details.date.day)} of' MMMM yyyy`)}`;
+	}
+	
+	public setNotes(notes: string) {
+		this.details.notes = notes;
+		return this;
+	}
+
+	public getNotes() {
+		return this.details.notes;
 	}
 
 	public getNextAvailableEvent(): IDayEvent {
