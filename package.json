@@ -12,6 +12,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "deploy:hosting": "firebase deploy --only hosting",
+    "deploy": "npm run build && npm run deploy:hosting",
     "new": "cross-env npx generate-react-cli component $npm_config_name --type=$npm_config_type"
   },
   "dependencies": {
