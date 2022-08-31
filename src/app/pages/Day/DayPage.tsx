@@ -163,7 +163,7 @@ const DayPage = ({ }: IDayPage) => {
 					if (events.length > 0) {
 						events.push({
 							duration_seconds: DateTime.now().diff(events.slice(-1)[0].end_timestamp, 'seconds').seconds,
-							end: DateTime.now().toFormat('hh:mm'),
+							end: DateTime.now().toFormat('HH:mm'),
 							end_timestamp: DateTime.now(),
 							message: '',
 							people: [],
@@ -173,11 +173,11 @@ const DayPage = ({ }: IDayPage) => {
 					} else {
 						events.push({
 							duration_seconds: DateTime.now().diff(DateTime.now().set({ hour: 9, minute: 0 }), 'seconds').seconds,
-							end: DateTime.now().toFormat('hh:mm'),
+							end: DateTime.now().toFormat('HH:mm'),
 							end_timestamp: DateTime.now(),
 							message: '',
 							people: [],
-							start: DateTime.now().set({ hour: 9, minute: 0 }).toFormat('hh:mm'),
+							start: DateTime.now().set({ hour: 9, minute: 0 }).toFormat('HH:mm'),
 							start_timestamp: DateTime.now().set({ hour: 9, minute: 0 }),
 						});
 					}

@@ -168,21 +168,21 @@ export class Day {
 		if (!lastEvent) {
 			return {
 				duration_seconds: 0,
-				end: now.toFormat('hh:mm'),
+				end: now.toFormat('HH:mm'),
 				end_timestamp: now,
 				message: 'New Event',
 				people: [],
-				start: now.toFormat('hh:mm'),
+				start: now.toFormat('HH:mm'),
 				start_timestamp: now
 			};
 		} else {
 			return {
 				duration_seconds: now.diff(lastEvent.end_timestamp, 'seconds').seconds,
-				end: now.toFormat('hh:mm'),
+				end: now.toFormat('HH:mm'),
 				end_timestamp: now,
 				message: 'New Event',
 				people: [],
-				start: lastEvent.end_timestamp.toFormat('hh:mm'),
+				start: lastEvent.end_timestamp.toFormat('HH:mm'),
 				start_timestamp: lastEvent.end_timestamp
 			};
 		}
