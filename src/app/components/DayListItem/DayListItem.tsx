@@ -8,10 +8,12 @@ import styles from './DayListItem.module.scss';
 export interface IDayListItem {
 	details: IDayEvent,
 	onChange?: (event: IDayEvent) => void,
-	onDelete?: () => void
+	onDelete?: () => void,
+	onMoveUp?: () => void,
+	onMoveDown?: () => void,
 }
 
-const DayListItem = ({ details, onChange, onDelete }: React.PropsWithChildren<IDayListItem>) => {
+const DayListItem = ({ details, onChange, onDelete, onMoveUp, onMoveDown }: React.PropsWithChildren<IDayListItem>) => {
 	const [ start, setStart ] = useState(details.start);
 	const [ end, setEnd ] = useState(details.end);
 	const [ message, setMessage ] = useState(details.message);
@@ -82,10 +84,22 @@ const DayListItem = ({ details, onChange, onDelete }: React.PropsWithChildren<ID
 				<button
 					className={styles.AddPerson}
 					onClick={() => {
-						setPeople((prev) => [...prev, 'Person ' + prev.length]);
+						setPeople((prev) => [...prev, 'Tag ' + (prev.length + 1)]);
 					}}>
 					<span className="material-icons-round">add</span> 
 				</button>
+			</span>
+
+			<span className={styles.Actions}>
+				{!!onMoveUp && <button onClick={onMoveUp}>
+					<span className="material-icons-round">arrow_upward</span> 
+				</button>}
+				{!!onMoveDown && <button onClick={onMoveDown}>
+					<span className="material-icons-round">arrow_downward</span> 
+				</button>}
+				{!!onDelete && <button onClick={onDelete}>
+					<span className="material-icons-round">close</span> 
+				</button>}
 			</span>
 		</div>
 	);

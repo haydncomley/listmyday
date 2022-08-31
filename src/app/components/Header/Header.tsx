@@ -18,7 +18,10 @@ const Header = ({ }: IHeader) => {
 				<h1>ListMy.Day</h1>
 			</span>
 
-			<span className={styles.Date}>{displayDate}</span>
+			<span className={styles.Date}>
+				<span className="material-icons">today</span> 
+				{displayDate}
+			</span>
 		</div>
 	);
 };

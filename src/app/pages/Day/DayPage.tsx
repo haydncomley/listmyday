@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ContextButton from '../../components/ContextButton/ContextButton';
 import DayListItem from '../../components/DayListItem/DayListItem';
 import Header from '../../components/Header/Header';
@@ -12,16 +12,15 @@ export interface IDayPage {
 
 // eslint-disable-next-line no-empty-pattern
 const DayPage = ({ }: IDayPage) => {
+	const navigation = useNavigate();
 	const params = useParams();
 	const date = params?.date || DateTime.now().toFormat('yyyy-MM-dd');
 	const [day, setDay] = useState<Day>();
 	const [count, setCount ] = useState(0);
 
 	const saveCurrent = () => {
-		console.log(day);
 		if (day) {
 			localStorage.setItem(`listmy.day-${date}`, day.export());
-			console.log(day.export());
 			setCount((prev) => prev + 1);
 		}
 	};
@@ -31,6 +30,52 @@ const DayPage = ({ }: IDayPage) => {
 			x.preventDefault();
 			x.stopPropagation();
 			document.querySelector<HTMLButtonElement>('#save-button')!.click();
+		}
+
+		if (x.key === 'i' && x.ctrlKey) {
+			x.preventDefault();
+			x.stopPropagation();
+			
+			const i = document.createElement('input');
+			i.multiple = false;
+			i.accept = 'text/plain';
+			i.type = 'file';
+
+			i.addEventListener('change', () => {
+				if (i.files?.length === 1) {
+					const reader = new FileReader();
+					reader.addEventListener('load', () => {
+						localStorage.setItem(`listmy.day-${date}`, reader.result as string);
+						navigation('/');
+						location.reload();
+					});
+					reader.readAsText(i.files[0]);
+				}
+			});
+
+			i.click();
+		}
+
+		if (x.key === 'd' && x.ctrlKey) {
+			x.preventDefault();
+			x.stopPropagation();
+			document.querySelector<HTMLButtonElement>('#save-button')!.click();
+
+			setTimeout(() => {
+				const blob = new Blob([localStorage.getItem(`listmy.day-${date}`) || ''], {
+					type: 'text/plain;charset=utf-8'
+				});
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `${date}_TimeSheet.txt`;
+				a.click();
+	
+				setTimeout(() => {
+					URL.revokeObjectURL(url);
+					a.remove();
+				}, 0);
+			}, 50);
 		}
 	};
 
@@ -73,6 +118,24 @@ const DayPage = ({ }: IDayPage) => {
 					return prev?.setEvents(events);
 				});
 				setCount((prev) => prev + 1);
+			}}
+			onMoveDown={i === day.getEvents().length - 1 ? undefined : () => {
+				setDay((prev) => {
+					const events = [...(prev?.getEvents() || [])];
+					const event = events.splice(i, 1)[0];
+					events.splice(i + 1, 0, event);
+					return prev?.setEvents(events);
+				});
+				setCount((prev) => prev + 1);
+			}}
+			onMoveUp={i === 0 ? undefined : () => {
+				setDay((prev) => {
+					const events = [...(prev?.getEvents() || [])];
+					const event = events.splice(i, 1)[0];
+					events.splice(i - 1, 0, event);
+					return prev?.setEvents(events);
+				});
+				setCount((prev) => prev + 1);
 			}} />);
 	}, [count]);
 
@@ -93,7 +156,6 @@ const DayPage = ({ }: IDayPage) => {
 				icon='add'
 				onPress={() => {
 					if (!day) {
-						console.log('No Day');
 						return;
 					}
 					

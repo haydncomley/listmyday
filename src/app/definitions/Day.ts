@@ -111,7 +111,8 @@ export class Day {
 
 		file += `${date + (group ? ` - ${group}` : '')}\n\n`;
 		this.getEvents().forEach((x) => {
-			file += `${x.start} - ${x.end}\t:\t${x.message}${ x.people.length > 0 ? ` [${x.people.join(', ')}]` : ''}\n`;
+			const line = `${x.start} - ${x.end}\t:\t${x.message}${ x.people.length > 0 ? ` [${x.people.join(', ')}]` : ''}\n`;
+			file += (x.message.startsWith('Lunch') || x.message.startsWith('Break')) ? `\n${line}\n` : line;
 		});
 	
 		return file;

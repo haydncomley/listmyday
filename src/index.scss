@@ -1,3 +1,5 @@
+@use "~easy-theme" as theme;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap');
 @import 'material-icons/iconfont/material-icons.css';
 
@@ -28,10 +30,24 @@ code {
   display: flex;
   flex-direction: column;
 
-  > * {
+  >* {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    max-height: 100vh;
+
+    ::-webkit-scrollbar {
+      width: .25rem;
+      background-color: theme.Text('accent', .2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: theme.Text('accent', .5);
+
+      &:hover {
+        background-color: theme.Text('accent', 1);
+      }
+    }
   }
 }

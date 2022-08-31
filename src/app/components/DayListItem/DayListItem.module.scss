@@ -4,17 +4,25 @@ $padding: 1rem;
 
 .DayListItem {
     padding: $padding;
-    // border-bottom: .125rem dashed theme.Color('accent', .5);
     transition: .1s ease;
     display: flex;
     align-items: flex-start;
     position: relative;
 
     &:nth-child(2n) {
-        background: theme.Color('accent', .25);
+        background: theme.Color('accent', .2);
 
         @include theme.DarkMode {
             background: theme.Color('accent', .1);
+        }
+    }
+
+    &:hover,
+    &:focus-within {
+        .Actions {
+            transform: translateX(0%);
+            opacity: 1;
+            pointer-events: all;
         }
     }
 }
@@ -87,4 +95,44 @@ $padding: 1rem;
         cursor: pointer;
         background-color: theme.Color('accent', 'dark');
     }
+}
+
+.Actions {
+    position: absolute;
+    left: 1rem;
+    top: calc(100% - 1rem);
+    padding: $padding * .2;
+    background-color: theme.Text('accent');
+    color: theme.Color('accent');
+    border-radius: 5rem;
+    z-index: 5;
+    transition: .2s ease;
+    display: flex;
+    gap: .1rem;
+
+    button {
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: flex;
+        padding: $padding * .2;
+        border-radius: 50%;
+        color: theme.Color('accent');
+        background-color: transparent;
+
+        span {
+            font-size: .8rem;
+            color: inherit;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: theme.Color('accent');
+            color: theme.Text('accent');
+        }
+    }
+
+    transform: translateX(-20%);
+    opacity: 0;
+    pointer-events: none;
 }
