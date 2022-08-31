@@ -13,4 +13,9 @@
     resize: none;
     padding: 1rem;
     border-radius: .5rem;
+    color: theme.Text('background');
+    
+    &::placeholder {
+        color: theme.Text('background', .5);
+    }
 }

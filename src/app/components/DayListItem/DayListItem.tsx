@@ -14,12 +14,17 @@ export interface IDayListItem {
 }
 
 const DayListItem = ({ details, onChange, onDelete, onMoveUp, onMoveDown }: React.PropsWithChildren<IDayListItem>) => {
+	const [ init, setInit ] = useState(false);
 	const [ start, setStart ] = useState(details.start);
 	const [ end, setEnd ] = useState(details.end);
 	const [ message, setMessage ] = useState(details.message);
 	const [ people, setPeople ] = useState([...details.people]);
 	
 	useEffect(() => {
+		if (!init) {
+			setInit(true);
+			return;
+		}
 		if (!onChange) return;
 
 		const event = { ...details };

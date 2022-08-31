@@ -35,7 +35,11 @@ code {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    max-height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 
     ::-webkit-scrollbar {
       width: .25rem;

@@ -1,7 +1,62 @@
+@use "~easy-theme" as theme;
+
 .DayPage {}
 
 .DayPageList {
     flex: 1;
     overflow-y: scroll;
     padding-bottom: 4rem;
+
+    @include theme.Mobile {
+        padding-bottom: 6rem;
+    }
+}
+
+.Save {
+    position: fixed;
+    bottom: 1rem;
+    padding: .9rem 1.5rem;
+    z-index: 3;
+    left: 5rem;
+    transform: translateY(0%);
+    font-size: 1.2rem;
+    margin: 0;
+    border: none;
+    background-color: theme.Color('accent');
+    color: theme.Text('accent');
+    border-radius: 4rem;
+    transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+
+    @include theme.Mobile {
+        left: 50%;
+        transform: translateX(-50%) translateY(0%);
+    }
+
+    span {
+        margin-left: -.6rem;
+        margin-right: .6rem;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: theme.Color('accent', 'dark');
+    }
+
+    &:active {
+        transform: scale(.9);
+
+        @include theme.Mobile {
+            transform: translateX(-50%) translateY(0%) scale(.9);
+        }
+    }
+}
+
+.HideSave {
+    transform: translateY(150%);
+
+    @include theme.Mobile {
+        transform: translateX(-50%) translateY(150%);
+    }
 }

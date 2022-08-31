@@ -1,3 +1,4 @@
+import { classlist } from 'easy-class';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,10 +20,26 @@ const DayPage = ({ }: IDayPage) => {
 	const [day, setDay] = useState<Day>();
 	const [count, setCount ] = useState(0);
 
+	const [ last, setLast ] = useState('');
+	const [ hasChanges, setHasChanges ] = useState(false);
+
+	useEffect(() => {
+		if (!day) return;
+		const current = day.export();
+		
+		const changed = last.localeCompare(current) != 0;
+		if (changed && last !== '' && !hasChanges) {
+			console.log('Updates Made.');
+			setHasChanges(true);
+		}
+		setLast(current);
+	}, [count]);
+
 	const saveCurrent = () => {
 		if (day) {
 			localStorage.setItem(`listmy.day-${date}`, day.export());
 			console.log(day.export());
+			setHasChanges(false);
 			setCount((prev) => prev + 1);
 		}
 	};
@@ -105,38 +122,39 @@ const DayPage = ({ }: IDayPage) => {
 	const renderList = useCallback(() => {
 		return day?.getEvents().map((x, i) => <DayListItem
 			details={x}
-			key={i+x.start}
+			key={x.start}
 			onChange={(e) => {
-				setDay((prev) => {
-					const events = prev?.getEvents() || [];
-					events[i] = e;
-					return prev?.setEvents(events);
-				});
+				if (!day) return;
+				const events = [...day.getEvents()];
+				events[i] = e;
+				day.setEvents([...events]);
+				setDay(day);
+				setCount((prev) => prev + 1);
 			}}
 			onDelete={() => {
-				setDay((prev) => {
-					const events = [...(prev?.getEvents() || [])];
-					events.splice(i, 1);
-					return prev?.setEvents(events);
-				});
+				if (!day) return;
+				const events = [...day.getEvents()];
+				events.splice(i, 1);
+				day.setEvents([...events]);
+				setDay(day);
 				setCount((prev) => prev + 1);
 			}}
 			onMoveDown={i === day.getEvents().length - 1 ? undefined : () => {
-				setDay((prev) => {
-					const events = [...(prev?.getEvents() || [])];
-					const event = events.splice(i, 1)[0];
-					events.splice(i + 1, 0, event);
-					return prev?.setEvents(events);
-				});
+				if (!day) return;
+				const events = [...day.getEvents()];
+				const event = events.splice(i, 1)[0];
+				events.splice(i + 1, 0, event);
+				day.setEvents([...events]);
+				setDay(day);
 				setCount((prev) => prev + 1);
 			}}
 			onMoveUp={i === 0 ? undefined : () => {
-				setDay((prev) => {
-					const events = [...(prev?.getEvents() || [])];
-					const event = events.splice(i, 1)[0];
-					events.splice(i - 1, 0, event);
-					return prev?.setEvents(events);
-				});
+				if (!day) return;
+				const events = [...day.getEvents()];
+				const event = events.splice(i, 1)[0];
+				events.splice(i - 1, 0, event);
+				day.setEvents([...events]);
+				setDay(day);
 				setCount((prev) => prev + 1);
 			}} />);
 	}, [count]);
@@ -148,11 +166,17 @@ const DayPage = ({ }: IDayPage) => {
 				{ renderList() }
 			</div>
 			<button
+				className={classlist(
+					styles.Save,
+					!hasChanges && styles.HideSave
+				)}
 				id='save-button'
 				onClick={() => {
 					saveCurrent();
-				}}
-				style={{ display: 'none' }}>Done</button>
+				}}>
+				<span className="material-icons-round">save</span> 
+					Save
+			</button>
 			
 			<ContextButton
 				icon='add'

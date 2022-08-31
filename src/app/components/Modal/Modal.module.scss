@@ -1,9 +1,8 @@
 @use "~easy-theme" as theme;
 
 $padding: 1rem;
-$radius: 0rem;
+$radius: .5rem;
 $transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
-;
 
 .ModalWrapper {
     position: fixed;
@@ -24,6 +23,10 @@ $transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
     .Modal {
         transform: translateY(0%);
         pointer-events: all;
+
+        @include theme.NotMobile {
+            transform: translateX(-50%) translateY(0%);
+        }
     }
 }
 
@@ -33,10 +36,14 @@ $transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
     top: 0;
     height: 100%;
     width: 100%;
-    background: theme.Color('background', .5);
-    backdrop-filter: blur(.1rem);
+    background: theme.Color('background', .75);
     transition: $transition;
     pointer-events: none;
+
+    @include theme.Mobile {
+        background: theme.Color('background', .5);
+        backdrop-filter: blur(.1rem);
+    }
 
     opacity: 0;
 }
@@ -47,11 +54,21 @@ $transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
     bottom: 0;
     width: 100%;
     background-color: theme.Color('background');
-    // box-shadow: 0 0 .25rem 0 theme.Color('accent', .5);
     border-radius: $radius $radius 0 0;
     transition: $transition;
 
     transform: translateY(100%);
+
+    @include theme.NotMobile {
+        transition: .5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        left: 50%;
+        bottom: 50%;
+        width: 75%;
+        max-width: 35rem;
+        border-radius: $radius;
+
+        transform: translateX(-50%) translateY(100vh);
+    }
 }
 
 .ModalHeader {
@@ -77,6 +94,9 @@ $transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
 .ModalBody {
     padding: $padding;
     background-color: theme.Color('accent', .1);
-    // background-color: theme.Color('background');
     color: theme.Text('background');
+
+    @include theme.NotMobile {
+        border-radius: 0 0 $radius $radius;
+    }
 }
