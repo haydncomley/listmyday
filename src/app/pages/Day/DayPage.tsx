@@ -36,8 +36,13 @@ const DayPage = ({ }: IDayPage) => {
 		const day = new Day().import(
 			localStorage.getItem(`listmy.day-${date}`) || ''
 		);
-		if (day) {
-			setDay(day);
+
+		if (!day?.getDate().invalidReason) {
+			setDay(day!);
+			setCount((prev) => prev + 1);
+		} else {
+			const day = new Day().import(DateTime.now().toFormat(`dd'${new Day().ordinal(DateTime.now().day)} of' MMMM yyyy\n\n`));
+			setDay(day!);
 			setCount((prev) => prev + 1);
 		}
 
@@ -79,7 +84,8 @@ const DayPage = ({ }: IDayPage) => {
 				id='save-button'
 				onClick={() => {
 					saveCurrent();
-				}}>Done</button>
+				}}
+				style={{ display: 'none' }}>Done</button>
 			
 			<ContextButton
 				icon='add'
@@ -102,7 +108,7 @@ const DayPage = ({ }: IDayPage) => {
 						});
 					} else {
 						events.push({
-							duration_seconds: DateTime.now().diff(events.slice(-1)[0].end_timestamp, 'seconds').seconds,
+							duration_seconds: DateTime.now().diff(DateTime.now().set({ hour: 9, minute: 0 }), 'seconds').seconds,
 							end: DateTime.now().toFormat('hh:mm'),
 							end_timestamp: DateTime.now(),
 							message: '',
