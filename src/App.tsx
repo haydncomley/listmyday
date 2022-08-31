@@ -14,6 +14,9 @@ function App() {
 				<Route
 					element={<LazyDayPage />}
 					path='/' />
+				<Route
+					element={<LazyDayPage />}
+					path='/:date' />
 			</Routes>
 		</BrowserRouter>
 	);

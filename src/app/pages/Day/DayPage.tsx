@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import ContextButton from '../../components/ContextButton/ContextButton';
 import DayListItem from '../../components/DayListItem/DayListItem';
 import Header from '../../components/Header/Header';
@@ -11,7 +12,8 @@ export interface IDayPage {
 
 // eslint-disable-next-line no-empty-pattern
 const DayPage = ({ }: IDayPage) => {
-	const date = DateTime.now().toFormat('yyyy-MM-dd');
+	const params = useParams();
+	const date = params?.date || DateTime.now().toFormat('yyyy-MM-dd');
 	const [day, setDay] = useState<Day>();
 	const [count, setCount ] = useState(0);
 
